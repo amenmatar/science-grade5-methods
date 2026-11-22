@@ -6,7 +6,9 @@
   <title>طرائق فصل المواد (ص ٣٩ – ٥٠) - الصف الخامس الأساسي</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
       font-family: "Segoe UI", Tahoma, Arial, sans-serif;
       background: linear-gradient(180deg, #fffbeb 0%, #f0fdfa 55%, #eff6ff 100%);
       color: #0f172a;
@@ -17,34 +19,49 @@
       width: 100%;
       background: repeating-linear-gradient(90deg, #111827 0 10px, #ffffff 10px 16px, #111827 16px 20px, #ffffff 20px 26px);
     }
+
+    /* الإطار العام الموحد للمحتوى والأعلام */
+    .outer-frame {
+      position: relative;
+      max-width: 1180px;
+      margin: 14px auto 48px;
+      padding: 18px 28px 34px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 2px solid #7dd3fc;
+      border-radius: 22px;
+      box-shadow: 0 10px 28px rgba(2, 132, 199, 0.12);
+    }
+
     .flag {
-      position: fixed;
-      width: 40px;
-      height: 24px;
-      z-index: 99;
-      border: 1px solid rgba(0,0,0,0.25);
+      position: absolute;
+      width: 38px;
+      height: 22px;
+      z-index: 20;
+      border: 1px solid rgba(15, 23, 42, 0.28);
       border-radius: 3px;
       overflow: hidden;
       pointer-events: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     }
     .flag .b { height: 33.33%; background: #000; }
     .flag .w { height: 33.33%; background: #fff; }
     .flag .g { height: 33.34%; background: #007a3d; }
     .flag .t {
       position: absolute; top: 0; left: 0; width: 0; height: 0;
-      border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 18px solid #ce1126;
+      border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 17px solid #ce1126;
     }
-    .f-tl { top: 18px; left: 10px; }
-    .f-tr { top: 18px; right: 10px; }
-    .f-bl { bottom: 12px; left: 10px; }
-    .f-br { bottom: 12px; right: 10px; }
+    .f-tl { top: 10px; left: 10px; }
+    .f-tr { top: 10px; right: 10px; }
+    .f-bl { bottom: 10px; left: 10px; }
+    .f-br { bottom: 10px; right: 10px; }
 
-    .wrap { max-width: 1140px; margin: 0 auto; padding: 16px 14px 56px; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding-top: 14px; }
+
     .hdr {
       background: linear-gradient(135deg, #0d9488 0%, #0284c7 55%, #ea580c 100%);
       color: #fff;
       border-radius: 18px;
-      padding: 18px 22px;
+      padding: 18px 20px;
       margin-bottom: 14px;
       box-shadow: 0 8px 20px rgba(2, 132, 199, 0.18);
       border: 2px solid rgba(255,255,255,0.35);
@@ -61,9 +78,9 @@
       font-size: 0.95rem; margin-bottom: 8px;
     }
     .info-line-2 {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
       background: rgba(15, 23, 42, 0.25); padding: 10px 14px; border-radius: 12px;
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
     .section-group {
       display: inline-flex; align-items: center; gap: 6px;
@@ -74,21 +91,21 @@
       font-weight: 700; color: #0f172a; background: #fef08a; cursor: pointer;
     }
     .name-group {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; gap: 6px; flex: 1 1 180px; max-width: 240px;
     }
     .name-group input[type="text"] {
       border: none; border-radius: 8px; padding: 5px 10px; font-family: inherit;
-      width: 170px; color: #0f172a; background: #fff; font-weight: 600;
+      width: 100%; min-width: 110px; color: #0f172a; background: #fff; font-weight: 600;
     }
 
     .toolbar {
-      display: flex; flex-wrap:wrap; justify-content: space-between; gap: 8px; margin-bottom: 14px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-bottom: 14px;
     }
     .btn {
       border: 2px solid #0284c7; background: #fff; color: #0369a1;
-      padding: 8px 14px; border-radius: 11px; font-weight: 700; font-family: inherit;
+      padding: 8px 13px; border-radius: 11px; font-weight: 700; font-family: inherit;
       cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.9rem; transition: 0.2s;
+      font-size: 0.88rem; transition: 0.2s;
     }
     .btn.active, .btn:hover { background: #0284c7; color: #fff; transform: translateY(-1px); }
     .btn-dark { background: #1e293b; border-color: #1e293b; color: #fff; }
@@ -125,9 +142,12 @@
     .concept-text {
       color: #1e293b; font-size: 0.96rem;
     }
+    .concept-text.hidden-concept {
+      display: none;
+    }
 
     .index-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;
     }
     .idx-card {
       background: #f0f9ff; border: 2px solid #7dd3fc; border-radius: 14px; padding: 14px;
@@ -146,7 +166,14 @@
     .idx-sub { color: #334155; font-size: 0.86rem; }
 
     .grid-2 { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 16px; }
-    @media (max-width: 780px) { .grid-2 { grid-template-columns: 1fr; } }
+    @media (max-width: 780px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .outer-frame { margin: 10px 8px 36px; padding: 14px 14px 28px; }
+      .flag { width: 30px; height: 18px; }
+      .flag .t {
+        border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 14px solid #ce1126;
+      }
+    }
 
     .stage {
       background: linear-gradient(180deg, #f0f9ff, #fffbeb); border: 2px dashed #38bdf8;
@@ -183,134 +210,153 @@
     .q input { width: 100%; padding: 7px 9px; border: 1.5px solid #94a3b8; border-radius: 8px; font-family: inherit; background: #fff; }
     .ans { display: none; margin-top: 6px; padding: 7px 10px; background: #dcfce7; color: #14532d; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
     .show-ans .ans { display: block; }
+
+    .print-meta { display: none; }
+
+    @media print {
+      body { background: #fff; }
+      .outer-frame { margin: 0; padding: 8px; border: none; box-shadow: none; background: #fff; }
+      .flag, .toolbar, #indexView .idx-card:hover { box-shadow: none; }
+      .name-group input, .section-group select { display: none; }
+      .print-meta { display: inline; font-weight: 700; color: #fef08a; }
+    }
   </style>
 </head>
 <body>
   <div class="keffiyeh"></div>
-  <div class="flag f-tl"><div class="b"></div><div class="w"></div><div class="g"></div><div class="t"></div></div>
-  <div class="flag f-tr"><div class="b"></div><div class="w"></div><div class="g"></div><div class="t"></div></div>
-  <div class="flag f-bl"><div class="b"></div><div class="w"></div><div class="g"></div><div class="t"></div></div>
-  <div class="flag f-br"><div class="b"></div><div class="w"></div><div class="g"></div><div class="t"></div></div>
 
-  <div class="wrap">
-    <header class="hdr">
-      <div class="hdr-top">
-        <span>دولة فلسطين • وزارة التربية والتعليم العالي</span>
-        <span>مديرية التربية والتعليم / طوباس</span>
-        <span>مدرسة ذكور طمون الأساسية العليا</span>
+  <div class="outer-frame">
+    <div class="flag f-tl"><div class="b"></div><div class="w"></div><div class="g"></div><div class="t"></div></div>
+    <div class="flag f-tr"><div class="b"></div><div class="w"></div><div class="g"></div><div class="t"></div></div>
+    <div class="flag f-bl"><div class="b"></div><div class="w"></div><div class="g"></div><div class="t"></div></div>
+    <div class="flag f-br"><div class="b"></div><div class="w"></div><div class="g"></div><div class="t"></div></div>
+
+    <div class="wrap">
+      <header class="hdr">
+        <div class="hdr-top">
+          <span>دولة فلسطين • وزارة التربية والتعليم العالي</span>
+          <span>مديرية التربية والتعليم / طوباس</span>
+          <span>مدرسة ذكور طمون الأساسية العليا</span>
+        </div>
+
+        <div class="info-line-1">
+          <div><strong>المادة:</strong> العلوم والحياة</div>
+          <div><strong>الوحدة الثانية:</strong> خصائص المادة</div>
+          <div><strong>الدرس الثاني:</strong> طرائق فصل المواد (ص ٣٩ – ٥٠)</div>
+        </div>
+
+        <div class="info-line-2">
+          <div><strong>الصف:</strong> الخامس الأساسي</div>
+          <span class="section-group">
+            <label for="ssection"><strong>الشعبة:</strong></label>
+            <select id="ssection" aria-label="الشعبة" onchange="syncPrintFields()">
+              <option value="">--</option>
+              <option value="أ">أ</option>
+              <option value="ب">ب</option>
+              <option value="ج">ج</option>
+            </select>
+            <span id="printSec" class="print-meta">--</span>
+          </span>
+          <span class="name-group">
+            <label for="sname"><strong>الاسم:</strong></label>
+            <input id="sname" type="text" placeholder="" oninput="syncPrintFields()" />
+            <span id="printName" class="print-meta"></span>
+          </span>
+          <div><strong>المعلم:</strong> أ. أمين عبدالرازق</div>
+        </div>
+      </header>
+
+      <div class="toolbar">
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button class="btn active" onclick="showIndex()">📚 لوحة الفهرس (ص ٣٩ – ٥٠)</button>
+          <button class="btn" id="subExploded" onclick="setSubTab('exploded')" style="display:none;">💥 العرض التفجيري</button>
+          <button class="btn" id="subTalking" onclick="setSubTab('talking')" style="display:none;">🎬 حين تنطق الصفحات + المحاكاة</button>
+          <button class="btn" id="subWorksheet" onclick="setSubTab('worksheet')" style="display:none;">📝 ورقة العمل والأنشطة</button>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <a href="https://www.facebook.com/Tamsch2051" target="_blank" rel="noopener noreferrer" class="btn btn-dark">🏠 الصفحة الرئيسة</a>
+          <a href="https://whatsapp.com/channel/0029Vb9Rgz8Bfxo6P7KhQr3l" target="_blank" rel="noopener noreferrer" class="btn btn-wa">📢 قناة النادي العلمي</a>
+          <button class="btn btn-acc" onclick="syncPrintFields(); window.print()">🖨️ طباعة</button>
+        </div>
       </div>
 
-      <div class="info-line-1">
-        <div><strong>المادة:</strong> العلوم والحياة</div>
-        <div><strong>الوحدة الثانية:</strong> خصائص المادة</div>
-        <div><strong>الدرس الثاني:</strong> طرائق فصل المواد (ص ٣٩ – ٥٠)</div>
-      </div>
+      <section id="indexView" class="box">
+        <h2>فهرس الصفحات المتسلسل (صفحة ٣٩ وحتى صفحة ٥٠)</h2>
+        <p style="margin-bottom:12px; color:#334155;">اختر الصفحة أو النشاط بالترتيب من صفحة ٣٩ إلى صفحة ٥٠ لتبدأ المغامرة العلمية وتتعرف مفهوم كل طريقة فصل:</p>
+        <div id="indexGrid" class="index-grid"></div>
+      </section>
 
-      <div class="info-line-2">
-        <div><strong>الصف:</strong> الخامس الأساسي</div>
-        <span class="section-group">
-          <label for="ssection"><strong>الشعبة:</strong></label>
-          <select id="ssection" aria-label="الشعبة">
-            <option value="">--</option>
-            <option value="أ">أ</option>
-            <option value="ب">ب</option>
-            <option value="ج">ج</option>
-          </select>
-        </span>
-        <span class="name-group">
-          <label for="sname"><strong>الاسم:</strong></label>
-          <input id="sname" type="text" placeholder="" />
-        </span>
-        <div><strong>المعلم:</strong> أ. أمين عبدالرازق</div>
-      </div>
-    </header>
+      <section id="activityView" style="display:none;">
+        <div class="box">
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+            <h2 id="actTitle" style="margin:0; border:none;"></h2>
+            <button class="btn" onclick="showIndex()">↩️ العودة إلى الفهرس</button>
+          </div>
 
-    <div class="toolbar">
-      <div style="display:flex; flex-wrap:wrap; gap:8px;">
-        <button class="btn active" onclick="showIndex()">📚 لوحة الفهرس (ص ٣٩ – ٥٠)</button>
-        <button class="btn" id="subExploded" onclick="setSubTab('exploded')" style="display:none;">💥 العرض التفجيري</button>
-        <button class="btn" id="subTalking" onclick="setSubTab('talking')" style="display:none;">🎬 حين تنطق الصفحات + المحاكاة</button>
-        <button class="btn" id="subWorksheet" onclick="setSubTab('worksheet')" style="display:none;">📝 ورقة العمل والأنشطة</button>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:8px;">
-        <a href="https://www.facebook.com/Tamsch2051" target="_blank" rel="noopener noreferrer" class="btn btn-dark">🏠 الصفحة الرئيسة</a>
-        <a href="https://whatsapp.com/channel/0029Vb9Rgz8Bfxo6P7KhQr3l" target="_blank" rel="noopener noreferrer" class="btn btn-wa">📢 قناة النادي العلمي</a>
-        <button class="btn btn-acc" onclick="window.print()">🖨️ طباعة</button>
-      </div>
+          <div class="concept-banner">
+            <div class="concept-header">
+              <span class="concept-title" id="conceptLabel"></span>
+              <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                <button class="btn" id="toggleConceptBtn" onclick="toggleConcept()">👁️ إخفاء المفهوم</button>
+                <button class="btn" onclick="speak(document.getElementById('conceptLabel').textContent + '. ' + document.getElementById('conceptText').textContent)">🔊 انطق المفهوم</button>
+              </div>
+            </div>
+            <p class="concept-text" id="conceptText"></p>
+          </div>
+
+          <div id="tabExploded">
+            <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:12px;">
+              <button class="btn btn-acc" id="expBtn" onclick="toggleExp()">🧩 تجميع الأجزاء</button>
+              <label style="font-weight:700;">تباعد الطبقات: <input id="expSlider" type="range" min="0" max="100" value="70" oninput="applyGap(this.value)" /></label>
+            </div>
+            <div class="grid-2">
+              <div id="stage" class="stage"></div>
+              <div class="info">
+                <h3 id="iTitle"></h3>
+                <p id="iDesc"></p>
+                <button class="btn" onclick="speak(document.getElementById('iTitle').textContent + '. ' + document.getElementById('iDesc').textContent)">🔊 انطق الشرح</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="tabTalking" style="display:none;">
+            <div class="story">
+              <div id="scTitle" style="font-weight:700; color:#fef08a;"></div>
+              <div class="chars">
+                <div id="c1" class="ch"><div id="ci1" style="font-size:1.8rem;"></div><strong id="cn1"></strong></div>
+                <div id="c2" class="ch"><div id="ci2" style="font-size:1.8rem;"></div><strong id="cn2"></strong></div>
+                <div id="c3" class="ch"><div id="ci3" style="font-size:1.8rem;"></div><strong id="cn3"></strong></div>
+              </div>
+              <div id="scSay" class="say"></div>
+              <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                <button class="btn btn-acc" onclick="playSc()">▶️ نطق المشهد</button>
+                <button class="btn" onclick="stepSc(-1)">⏮️ السابق</button>
+                <button class="btn" onclick="stepSc(1)">⏭️ التالي</button>
+                <button class="btn btn-dark" onclick="stopSp()">⏹️ إيقاف</button>
+              </div>
+            </div>
+
+            <div class="sim-panel">
+              <h3 style="color:#b45309; margin-bottom:8px;">محاكاة الصفحة التفاعلية</h3>
+              <div id="simButtons" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;"></div>
+              <div id="simOutput" class="q" style="margin:0;"></div>
+            </div>
+          </div>
+
+          <div id="tabWorksheet" style="display:none;">
+            <div id="wsContainer">
+              <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+                <h3 style="color:#0369a1;">أسئلة وفقرات الصفحة</h3>
+                <button class="btn btn-acc" onclick="document.getElementById('wsContainer').classList.toggle('show-ans')">💡 إظهار / إخفاء الإجابات النموذجية</button>
+              </div>
+              <div id="wsQuestions"></div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-
-    <section id="indexView" class="box">
-      <h2>فهرس الصفحات المتسلسل (صفحة ٣٩ وحتى صفحة ٥٠)</h2>
-      <p style="margin-bottom:12px; color:#334155;">اختر الصفحة أو النشاط بالترتيب من صفحة ٣٩ إلى صفحة ٥٠ لتبدأ المغامرة العلمية وتتعرف مفهوم كل طريقة فصل:</p>
-      <div id="indexGrid" class="index-grid"></div>
-    </section>
-
-    <section id="activityView" style="display:none;">
-      <div class="box">
-        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
-          <h2 id="actTitle" style="margin:0; border:none;"></h2>
-          <button class="btn" onclick="showIndex()">↩️ العودة إلى الفهرس</button>
-        </div>
-
-        <div class="concept-banner">
-          <div class="concept-header">
-            <span class="concept-title" id="conceptLabel"></span>
-            <button class="btn" onclick="speak(document.getElementById('conceptLabel').textContent + '. ' + document.getElementById('conceptText').textContent)">🔊 انطق المفهوم</button>
-          </div>
-          <p class="concept-text" id="conceptText"></p>
-        </div>
-
-        <div id="tabExploded">
-          <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:12px;">
-            <button class="btn btn-acc" id="expBtn" onclick="toggleExp()">🧩 تجميع الأجزاء</button>
-            <label style="font-weight:700;">تباعد الطبقات: <input id="expSlider" type="range" min="0" max="100" value="70" oninput="applyGap(this.value)" /></label>
-          </div>
-          <div class="grid-2">
-            <div id="stage" class="stage"></div>
-            <div class="info">
-              <h3 id="iTitle"></h3>
-              <p id="iDesc"></p>
-              <button class="btn" onclick="speak(document.getElementById('iTitle').textContent + '. ' + document.getElementById('iDesc').textContent)">🔊 انطق الشرح</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="tabTalking" style="display:none;">
-          <div class="story">
-            <div id="scTitle" style="font-weight:700; color:#fef08a;"></div>
-            <div class="chars">
-              <div id="c1" class="ch"><div id="ci1" style="font-size:1.8rem;"></div><strong id="cn1"></strong></div>
-              <div id="c2" class="ch"><div id="ci2" style="font-size:1.8rem;"></div><strong id="cn2"></strong></div>
-              <div id="c3" class="ch"><div id="ci3" style="font-size:1.8rem;"></div><strong id="cn3"></strong></div>
-            </div>
-            <div id="scSay" class="say"></div>
-            <div style="display:flex; flex-wrap:wrap; gap:8px;">
-              <button class="btn btn-acc" onclick="playSc()">▶️ نطق المشهد</button>
-              <button class="btn" onclick="stepSc(-1)">⏮️ السابق</button>
-              <button class="btn" onclick="stepSc(1)">⏭️ التالي</button>
-              <button class="btn btn-dark" onclick="stopSp()">⏹️ إيقاف</button>
-            </div>
-          </div>
-
-          <div class="sim-panel">
-            <h3 style="color:#b45309; margin-bottom:8px;">محاكاة الصفحة التفاعلية</h3>
-            <div id="simButtons" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;"></div>
-            <div id="simOutput" class="q" style="margin:0;"></div>
-          </div>
-        </div>
-
-        <div id="tabWorksheet" style="display:none;">
-          <div id="wsContainer">
-            <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
-              <h3 style="color:#0369a1;">أسئلة وفقرات الصفحة</h3>
-              <button class="btn btn-acc" onclick="document.getElementById('wsContainer').classList.toggle('show-ans')">💡 إظهار / إخفاء الإجابات النموذجية</button>
-            </div>
-            <div id="wsQuestions"></div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
+
   <div class="keffiyeh"></div>
 
   <script>
@@ -703,7 +749,22 @@
       }
     ];
 
-    let curPage = null, curPart = 0, expOn = true, scIdx = 0;
+    let curPage = null, curPart = 0, expOn = true, scIdx = 0, conceptVisible = true;
+
+    function syncPrintFields() {
+      const secVal = document.getElementById("ssection").value || "--";
+      const nameVal = document.getElementById("sname").value.trim();
+      document.getElementById("printSec").textContent = secVal;
+      document.getElementById("printName").textContent = nameVal;
+    }
+
+    function toggleConcept() {
+      conceptVisible = !conceptVisible;
+      const txt = document.getElementById("conceptText");
+      const btn = document.getElementById("toggleConceptBtn");
+      txt.classList.toggle("hidden-concept", !conceptVisible);
+      btn.textContent = conceptVisible ? "👁️ إخفاء المفهوم" : "👁️ إظهار المفهوم";
+    }
 
     function buildIndex() {
       const g = document.getElementById("indexGrid");
@@ -727,12 +788,15 @@
 
     function openPage(id) {
       curPage = pages.find(p => p.id === id);
-      curPart = 0; scIdx = 0;
+      curPart = 0; scIdx = 0; conceptVisible = true;
       document.getElementById("indexView").style.display = "none";
       document.getElementById("activityView").style.display = "block";
       document.getElementById("actTitle").textContent = curPage.title + " (" + curPage.badge + ")";
       document.getElementById("conceptLabel").textContent = curPage.conceptTitle;
-      document.getElementById("conceptText").textContent = curPage.conceptText;
+      const cText = document.getElementById("conceptText");
+      cText.textContent = curPage.conceptText;
+      cText.classList.remove("hidden-concept");
+      document.getElementById("toggleConceptBtn").textContent = "👁️ إخفاء المفهوم";
       ["subExploded","subTalking","subWorksheet"].forEach(tid => document.getElementById(tid).style.display = "inline-flex");
 
       document.getElementById("ci1").textContent = curPage.chars[0].i;
@@ -841,7 +905,10 @@
     function playSc() { showSc(); speak(curPage.scenes[scIdx].s); }
     function stepSc(d) { scIdx = (scIdx + d + curPage.scenes.length) % curPage.scenes.length; playSc(); }
 
-    document.addEventListener("DOMContentLoaded", buildIndex);
+    document.addEventListener("DOMContentLoaded", () => {
+      buildIndex();
+      syncPrintFields();
+    });
     buildIndex();
   </script>
 </body>
