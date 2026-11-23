@@ -20,13 +20,12 @@
       background: repeating-linear-gradient(90deg, #111827 0 10px, #ffffff 10px 16px, #111827 16px 20px, #ffffff 20px 26px);
     }
 
-    /* الإطار العام الموحد للمحتوى والأعلام */
     .outer-frame {
       position: relative;
       max-width: 1180px;
       margin: 14px auto 48px;
       padding: 18px 28px 34px;
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.75);
       border: 2px solid #7dd3fc;
       border-radius: 22px;
       box-shadow: 0 10px 28px rgba(2, 132, 199, 0.12);
@@ -114,6 +113,8 @@
     .btn-wa:hover { background: #15803d; color: #fff; }
     .btn-acc { background: #ea580c; border-color: #ea580c; color: #fff; }
     .btn-acc:hover { background: #c2410c; color: #fff; }
+    .btn-sum { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+    .btn-sum.active, .btn-sum:hover { background: #5b21b6; border-color: #5b21b6; color: #fff; }
 
     .box {
       background: #fff; border: 2px solid #bae6fd; border-radius: 16px;
@@ -164,6 +165,38 @@
     .idx-card:nth-child(3n) .idx-badge { background: #0284c7; }
     .idx-title { font-weight: 800; color: #0f172a; font-size: 1rem; }
     .idx-sub { color: #334155; font-size: 0.86rem; }
+
+    /* ملخص الدرس الكامل */
+    .summary-hero {
+      background: linear-gradient(135deg, #4c1d95 0%, #0369a1 55%, #0f766e 100%);
+      color: #fff; border-radius: 16px; padding: 16px 18px; margin-bottom: 14px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+    }
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 16px;
+    }
+    .sum-card {
+      background: #f8fafc; border: 2px solid #cbd5e1; border-top: 5px solid #0284c7;
+      border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 6px;
+    }
+    .sum-card:nth-child(3n+2) { border-top-color: #ea580c; background: #fffaf5; }
+    .sum-card:nth-child(3n) { border-top-color: #0d9488; background: #f4fdf9; }
+    .sum-head { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+    .sum-name { font-weight: 800; font-size: 1.04rem; color: #0f172a; }
+    .sum-prop { font-size: 0.9rem; color: #0369a1; font-weight: 700; }
+    .sum-ex { font-size: 0.9rem; color: #334155; }
+
+    .crucial-box {
+      background: linear-gradient(135deg, #fefce8 0%, #fff7ed 100%);
+      border: 2px solid #eab308; border-right: 6px solid #d97706;
+      border-radius: 14px; padding: 14px 16px;
+    }
+    .crucial-box h3 { color: #92400e; margin-bottom: 8px; }
+    .crucial-list { list-style: none; display: grid; gap: 8px; }
+    .crucial-list li {
+      background: rgba(255,255,255,0.85); padding: 9px 12px; border-radius: 10px;
+      border: 1px solid #fde68a; font-size: 0.93rem;
+    }
 
     .grid-2 { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 16px; }
     @media (max-width: 780px) {
@@ -216,7 +249,7 @@
     @media print {
       body { background: #fff; }
       .outer-frame { margin: 0; padding: 8px; border: none; box-shadow: none; background: #fff; }
-      .flag, .toolbar, #indexView .idx-card:hover { box-shadow: none; }
+      .flag, .toolbar { display: none; }
       .name-group input, .section-group select { display: none; }
       .print-meta { display: inline; font-weight: 700; color: #fef08a; }
     }
@@ -268,7 +301,8 @@
 
       <div class="toolbar">
         <div style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button class="btn active" onclick="showIndex()">📚 لوحة الفهرس (ص ٣٩ – ٥٠)</button>
+          <button class="btn active" id="btnIndex" onclick="showIndex()">📚 لوحة الفهرس (ص ٣٩ – ٥٠)</button>
+          <button class="btn btn-sum" id="btnSummary" onclick="showSummary()">📋 ملخص الدرس الكامل</button>
           <button class="btn" id="subExploded" onclick="setSubTab('exploded')" style="display:none;">💥 العرض التفجيري</button>
           <button class="btn" id="subTalking" onclick="setSubTab('talking')" style="display:none;">🎬 حين تنطق الصفحات + المحاكاة</button>
           <button class="btn" id="subWorksheet" onclick="setSubTab('worksheet')" style="display:none;">📝 ورقة العمل والأنشطة</button>
@@ -284,6 +318,32 @@
         <h2>فهرس الصفحات المتسلسل (صفحة ٣٩ وحتى صفحة ٥٠)</h2>
         <p style="margin-bottom:12px; color:#334155;">اختر الصفحة أو النشاط بالترتيب من صفحة ٣٩ إلى صفحة ٥٠ لتبدأ المغامرة العلمية وتتعرف مفهوم كل طريقة فصل:</p>
         <div id="indexGrid" class="index-grid"></div>
+      </section>
+
+      <section id="summaryView" class="box" style="display:none;">
+        <div class="summary-hero">
+          <div>
+            <h2 style="color:#fff; border:none; margin-bottom:4px;">📋 ملخص شامل لدرس: طرائق فصل المواد (ص ٣٩ – ٥٠)</h2>
+            <p style="color:#e0f2fe; font-size:0.93rem;">مراجعة مركزة لجميع طرائق الفصل والخصائص المعتمدة والفروق المهمة لطلاب الصف الخامس الأساسي</p>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <button class="btn btn-acc" onclick="speakAllSummary()">🔊 نطق الملخص كامل</button>
+            <button class="btn btn-dark" onclick="stopSp()">⏹️ إيقاف</button>
+            <button class="btn" onclick="showIndex()">↩️ الفهرس</button>
+          </div>
+        </div>
+
+        <div id="summaryGrid" class="summary-grid"></div>
+
+        <div class="crucial-box">
+          <h3>⚡ فروق حاسمة احفظها جيداً للمراجعة والاختبار:</h3>
+          <ul class="crucial-list">
+            <li><strong>الترويق مقابل الترشيح:</strong> الترويق يعتمد على ترسيب المواد الأثقل وسكب السائل بهدوء وهو سهل لكنه يحتاج وقتاً أطول وجودته متوسطة؛ بينما الترشيح يستخدم حاجزاً أو ورق ترشيح شبه نفاذ ويحجز الدقائق الدقيقة بجودة صفاء أعلى.</li>
+            <li><strong>التبخير مقابل التقطير:</strong> في <strong>التبخير</strong> يتبخر السائل بالحرارة أو الشمس وتبقى المادة الصلبة الذائبة (مثل الملح) دون تجميع السائل؛ أما في <strong>التقطير</strong> فتحدث عمليتان متتاليتان: <strong>التبخير</strong> ثم <strong>التكثف</strong> للحصول على سائل مقطر نقي.</li>
+            <li><strong>الفصل بقمع الفصل:</strong> يُستخدم لفصل سائلين غير ممتزجين (لا يذيبان بعضهما، مثل الماء والزيت) حيث ينزل السائل الأثقل/الأكثر كثافة أولاً عند فتح الصمام.</li>
+            <li><strong>فصل المخاليط مقابل المركبات وفرز النفايات:</strong> المخاليط تُفصل بطرائق فيزيائية، بينما تُفصل مكونات المركبات (كالماء وملح الطعام) بطرق كيميائية، وفرز النفايات حسب نوعها يساعد على إعادة التدوير وحماية البيئة.</li>
+          </ul>
+        </div>
       </section>
 
       <section id="activityView" style="display:none;">
@@ -360,6 +420,18 @@
   <div class="keffiyeh"></div>
 
   <script>
+    const summaryCards = [
+      { icon: "⭕", name: "الغربلة (الغربال)", prop: "الخاصية: اختلاف حجم الدقائق", ex: "فصل الحبوب عن الشوائب حسب حجم الفتحات." },
+      { icon: "🌬️", name: "التذرية (المذراة)", prop: "الخاصية: خفة القشور أمام الهواء ووزن الدقائق", ex: "فصل القشور الخفيفة عن الحبوب الأثقل بالهواء." },
+      { icon: "🫒", name: "الفرز اليدوي", prop: "الخاصية: سهولة تمييز الدقائق باليد", ex: "انتقاء ثمار الزيتون عن الأوراق والأغصان." },
+      { icon: "🧲", name: "الفصل المغناطيسي", prop: "الخاصية: الانجذاب المغناطيسي", ex: "فصل برادة الحديد عن برادة الألومنيوم بالمغناطيس." },
+      { icon: "⏳", name: "الترويق", prop: "الخاصية: ترسب المواد الصلبة الأثقل", ex: "ترك التراب والماء ليهدأ فيترسب التراب ثم سكب الماء بهدوء." },
+      { icon: "📄", name: "الترشيح", prop: "الخاصية: حجم الدقائق والمرور عبر ورق شبه نفاذ", ex: "فصل الدقائق الصلبة الدقيقة عن الماء باستخدام ورق الترشيح." },
+      { icon: "🔥", name: "التبخير", prop: "الخاصية: تبخر السائل وبقاء المادة الصلبة الذائبة", ex: "الحصول على الملح من محلول الماء والملح أو البحر الميت." },
+      { icon: "❄️", name: "التقطير", prop: "الخاصية: التبخير ثم التكثف", ex: "الحصول على الماء المقطر النقي وتنقية السوائل." },
+      { icon: "🔻", name: "الفصل بقمع الفصل", prop: "الخاصية: عدم امتزاج السائلين واختلاف كثافتهما", ex: "فصل الماء عن الزيت بفتح الصمام لنزول الماء الأثقل أولاً." }
+    ];
+
     const pages = [
       {
         id: "p39",
@@ -766,6 +838,14 @@
       btn.textContent = conceptVisible ? "👁️ إخفاء المفهوم" : "👁️ إظهار المفهوم";
     }
 
+    function setTopActive(mode) {
+      document.getElementById("btnIndex").classList.toggle("active", mode === "index");
+      document.getElementById("btnSummary").classList.toggle("active", mode === "summary");
+      ["subExploded","subTalking","subWorksheet"].forEach(id => {
+        document.getElementById(id).style.display = mode === "activity" ? "inline-flex" : "none";
+      });
+    }
+
     function buildIndex() {
       const g = document.getElementById("indexGrid");
       if (!g) return;
@@ -779,17 +859,53 @@
       });
     }
 
+    function buildSummary() {
+      const sg = document.getElementById("summaryGrid");
+      if (!sg) return;
+      sg.innerHTML = "";
+      summaryCards.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "sum-card";
+        card.innerHTML = `
+          <div class="sum-head">
+            <span class="sum-name">${c.icon} ${c.name}</span>
+            <button class="btn" style="padding:4px 9px; font-size:0.78rem;" onclick="speak('${c.name}. ${c.prop}. مثال: ${c.ex}')">🔊</button>
+          </div>
+          <div class="sum-prop">${c.prop}</div>
+          <div class="sum-ex"><strong>مثال:</strong> ${c.ex}</div>
+        `;
+        sg.appendChild(card);
+      });
+    }
+
+    function speakAllSummary() {
+      const text = summaryCards.map(c => `${c.name}. ${c.prop}. ${c.ex}`).join(" . ");
+      speak(text);
+    }
+
     function showIndex() {
       stopSp();
+      setTopActive("index");
       document.getElementById("indexView").style.display = "block";
+      document.getElementById("summaryView").style.display = "none";
       document.getElementById("activityView").style.display = "none";
-      ["subExploded","subTalking","subWorksheet"].forEach(id => document.getElementById(id).style.display = "none");
+    }
+
+    function showSummary() {
+      stopSp();
+      setTopActive("summary");
+      document.getElementById("indexView").style.display = "none";
+      document.getElementById("summaryView").style.display = "block";
+      document.getElementById("activityView").style.display = "none";
     }
 
     function openPage(id) {
+      stopSp();
       curPage = pages.find(p => p.id === id);
       curPart = 0; scIdx = 0; conceptVisible = true;
+      setTopActive("activity");
       document.getElementById("indexView").style.display = "none";
+      document.getElementById("summaryView").style.display = "none";
       document.getElementById("activityView").style.display = "block";
       document.getElementById("actTitle").textContent = curPage.title + " (" + curPage.badge + ")";
       document.getElementById("conceptLabel").textContent = curPage.conceptTitle;
@@ -797,7 +913,6 @@
       cText.textContent = curPage.conceptText;
       cText.classList.remove("hidden-concept");
       document.getElementById("toggleConceptBtn").textContent = "👁️ إخفاء المفهوم";
-      ["subExploded","subTalking","subWorksheet"].forEach(tid => document.getElementById(tid).style.display = "inline-flex");
 
       document.getElementById("ci1").textContent = curPage.chars[0].i;
       document.getElementById("cn1").textContent = curPage.chars[0].n;
@@ -907,9 +1022,11 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       buildIndex();
+      buildSummary();
       syncPrintFields();
     });
     buildIndex();
+    buildSummary();
   </script>
 </body>
 </html>
